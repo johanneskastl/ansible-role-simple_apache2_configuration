@@ -1,0 +1,24 @@
+---
+# simple_apache2_configuration/tasks/main.yml
+
+- name: 'Create vhost file for non-SSL'
+  ansible.builtin.template:
+    src: 'vhost.conf.j2'
+    dest: "{{ simple_apache2_configuration_path_to_apache2_vhosts_d }}/{{ simple_apache2_configuration_vhost_filename }}"
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - 'Restart the apache2 service'
+
+- name: 'Create file for TLS-enabled vhost'
+  ansible.builtin.template:
+    src: 'vhost-ssl.conf.j2'
+    dest: "{{ simple_apache2_configuration_path_to_apache2_vhosts_d }}/{{ simple_apache2_configuration_vhost_ssl_filename }}"
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - 'Restart the apache2 service'
+  when:
+    - 'simple_apache2_configuration_enable_tls | bool'
