@@ -8,6 +8,9 @@ simple_apache2_configuration_server_documentroot: '/srv/www/htdocs'
 # whether to create a TLS-enabled vhost
 simple_apache2_configuration_enable_tls: false
 
+# whether to redirect HTTP to HTTPS permanently
+simple_apache2_configuration_redirect_to_https: false
+
 # Apache default settings
 simple_apache2_configuration_hostnamelookups: 'Off'
 simple_apache2_configuration_usecanonicalname: 'Off'
