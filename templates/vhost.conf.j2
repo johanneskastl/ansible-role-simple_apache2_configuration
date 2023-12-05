@@ -2,6 +2,10 @@
     ServerAdmin {{ simple_apache2_configuration_server_admin }}
     ServerName {{ simple_apache2_configuration_server_name }}
 
+{% if simple_apache2_configuration_redirect_to_https | bool %}
+    Redirect permanent / https://{{ simple_apache2_configuration_server_name }}/
+
+{% else %}
     DocumentRoot "{{ simple_apache2_configuration_server_documentroot }}"
 
     HostnameLookups {{ simple_apache2_configuration_hostnamelookups }}
@@ -21,5 +25,6 @@
         </IfModule>
     </Directory>
 
+{% endif %}
 </VirtualHost>
 
