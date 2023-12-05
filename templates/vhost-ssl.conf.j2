@@ -1,6 +1,9 @@
 <VirtualHost *:443>
     ServerAdmin {{ simple_apache2_configuration_server_admin }}
     ServerName {{ simple_apache2_configuration_server_name }}:443
+{% if simple_apache2_configuration_server_aliases is defined %}
+    ServerAlias {{ simple_apache2_configuration_server_aliases | join(' ') }}
+{% endif %}
 
     DocumentRoot "{{ simple_apache2_configuration_server_documentroot }}"
 
