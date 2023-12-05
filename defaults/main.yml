@@ -1,0 +1,14 @@
+---
+
+# OS-related
+simple_apache2_configuration_systemd_service_name: 'apache2.service'
+simple_apache2_configuration_path_to_apache2_vhosts_d: '/etc/apache2/vhosts.d'
+simple_apache2_configuration_server_documentroot: '/srv/www/htdocs'
+
+# whether to create a TLS-enabled vhost
+simple_apache2_configuration_enable_tls: false
+
+# Apache default settings
+simple_apache2_configuration_hostnamelookups: 'Off'
+simple_apache2_configuration_usecanonicalname: 'Off'
+simple_apache2_configuration_serversignature: 'On'
