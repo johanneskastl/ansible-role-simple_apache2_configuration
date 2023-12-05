@@ -1,6 +1,9 @@
 <VirtualHost *:80>
     ServerAdmin {{ simple_apache2_configuration_server_admin }}
     ServerName {{ simple_apache2_configuration_server_name }}
+{% if simple_apache2_configuration_server_aliases is defined %}
+    ServerAlias {{ simple_apache2_configuration_server_aliases | join(' ') }}
+{% endif %}
 
 {% if simple_apache2_configuration_redirect_to_https | bool %}
     Redirect permanent / https://{{ simple_apache2_configuration_server_name }}/
