@@ -22,3 +22,34 @@
     - 'Restart the apache2 service'
   when:
     - 'simple_apache2_configuration_enable_tls | bool'
+
+- name: 'Enable the SSL apache module'
+  community.general.apache2_module:
+    state: 'present'
+    name: 'ssl'
+  notify:
+    - 'Restart the apache2 service'
+  when:
+    - 'simple_apache2_configuration_enable_tls | bool'
+    - 'ansible_os_family != "Suse"'
+
+- name: 'Check if the SSL module is enabled in the openSUSE sysconfig file'
+  ansible.builtin.shell:
+    cmd: 'grep ^APACHE_MODULES /etc/sysconfig/apache2 |grep -q ssl'
+  register: sysconfig_apache2_grep_ssl_module
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: 'Enable the SSL module in the openSUSE sysconfig file'
+  ansible.builtin.lineinfile:
+    path: '/etc/sysconfig/apache2'
+    regexp: '^APACHE_MODULES="(.*)"'
+    line: 'APACHE_MODULES="ssl \1"'
+    backrefs: true
+  notify:
+    - 'Restart the apache2 service'
+  when:
+    - 'simple_apache2_configuration_enable_tls | bool'
+    - 'ansible_os_family == "Suse"'
+    - 'sysconfig_apache2_grep_ssl_module.rc != 0'
