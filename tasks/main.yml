@@ -41,7 +41,7 @@
 #
 - name: 'Check if the SSL module is enabled in the openSUSE sysconfig file'
   ansible.builtin.shell:
-    cmd: 'grep ^APACHE_MODULES /etc/sysconfig/apache2 |grep -q ssl'
+    cmd: 'set -o pipefail && grep ^APACHE_MODULES /etc/sysconfig/apache2 |grep -q ssl'
   register: sysconfig_apache2_grep_ssl_module
   changed_when: false
   failed_when: false
@@ -65,7 +65,7 @@
 #
 - name: 'Check if the SSL server flag is enabled in the openSUSE sysconfig file'
   ansible.builtin.shell:
-    cmd: 'grep ^APACHE_SERVER_FLAGS /etc/sysconfig/apache2 |grep -q SSL'
+    cmd: 'set -o pipefail && grep ^APACHE_SERVER_FLAGS /etc/sysconfig/apache2 |grep -q SSL'
   register: sysconfig_apache2_grep_ssl_flag
   changed_when: false
   failed_when: false
