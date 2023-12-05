@@ -23,6 +23,9 @@
   when:
     - 'simple_apache2_configuration_enable_tls | bool'
 
+#
+# SSL module on non-Suse
+#
 - name: 'Enable the SSL apache module'
   community.general.apache2_module:
     state: 'present'
@@ -33,6 +36,9 @@
     - 'simple_apache2_configuration_enable_tls | bool'
     - 'ansible_os_family != "Suse"'
 
+#
+# SSL module on Suse
+#
 - name: 'Check if the SSL module is enabled in the openSUSE sysconfig file'
   ansible.builtin.shell:
     cmd: 'grep ^APACHE_MODULES /etc/sysconfig/apache2 |grep -q ssl'
