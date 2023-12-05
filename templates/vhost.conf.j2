@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+    ServerAdmin {{ simple_apache2_configuration_server_admin }}
+    ServerName {{ simple_apache2_configuration_server_name }}
+
+    DocumentRoot "{{ simple_apache2_configuration_server_documentroot }}"
+
+    HostnameLookups {{ simple_apache2_configuration_hostnamelookups }}
+    UseCanonicalName {{ simple_apache2_configuration_usecanonicalname }}
+    ServerSignature {{ simple_apache2_configuration_serversignature }}
+
+    <Directory "{{ simple_apache2_configuration_server_documentroot }}">
+
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        <IfModule !mod_access_compat.c>
+            Require all granted
+        </IfModule>
+        <IfModule mod_access_compat.c>
+            Order allow,deny
+            Allow from all
+        </IfModule>
+    </Directory>
+
+</VirtualHost>
+
