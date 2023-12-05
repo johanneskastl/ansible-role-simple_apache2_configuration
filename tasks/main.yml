@@ -59,3 +59,27 @@
     - 'simple_apache2_configuration_enable_tls | bool'
     - 'ansible_os_family == "Suse"'
     - 'sysconfig_apache2_grep_ssl_module.rc != 0'
+
+#
+# SSL server flag on Suse
+#
+- name: 'Check if the SSL server flag is enabled in the openSUSE sysconfig file'
+  ansible.builtin.shell:
+    cmd: 'grep ^APACHE_SERVER_FLAGS /etc/sysconfig/apache2 |grep -q SSL'
+  register: sysconfig_apache2_grep_ssl_flag
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: 'Enable the SSL server flag in the openSUSE sysconfig file'
+  ansible.builtin.lineinfile:
+    path: '/etc/sysconfig/apache2'
+    regexp: '^APACHE_SERVER_FLAGS="(.*)"'
+    line: 'APACHE_SERVER_FLAGS="SSL \1"'
+    backrefs: true
+  notify:
+    - 'Restart the apache2 service'
+  when:
+    - 'simple_apache2_configuration_enable_tls | bool'
+    - 'ansible_os_family == "Suse"'
+    - 'sysconfig_apache2_grep_ssl_flag.rc != 0'
