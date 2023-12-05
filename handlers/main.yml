@@ -1,0 +1,6 @@
+---
+
+- name: 'Restart the apache2 service'
+  ansible.builtin.service:
+    name: "{{ simple_apache2_configuration_systemd_service_name }}"
+    state: 'restarted'
