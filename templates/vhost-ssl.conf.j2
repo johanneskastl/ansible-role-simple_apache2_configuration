@@ -1,0 +1,37 @@
+<VirtualHost *:443>
+    ServerAdmin {{ simple_apache2_configuration_server_admin }}
+    ServerName {{ simple_apache2_configuration_server_name }}:443
+
+    DocumentRoot "{{ simple_apache2_configuration_server_documentroot }}"
+
+    HostnameLookups {{ simple_apache2_configuration_hostnamelookups }}
+    UseCanonicalName {{ simple_apache2_configuration_usecanonicalname }}
+    ServerSignature {{ simple_apache2_configuration_serversignature }}
+
+    # SSL settings
+    SSLEngine on
+    SSLUseStapling  off
+    SSLCertificateFile /etc/apache2/ssl.crt/icinga2.dmz.ojkastl.de.crt
+    SSLCertificateKeyFile /etc/apache2/ssl.key/icinga2.dmz.ojkastl.de.key
+
+{% if simple_apache2_configuration_customlog_path is defined and simple_apache2_configuration_customlog_type is defined %}
+    #   Per-Server Logging:
+    #   The home of a custom SSL log file. Use this when you want a
+    #   compact non-error SSL logfile on a virtual host basis.
+    CustomLog {{ simple_apache2_configuration_customlog_path }}   {{ simple_apache2_configuration_customlog_type }}
+{% endif %}
+
+    <Directory "{{ simple_apache2_configuration_server_documentroot }}">
+
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        <IfModule !mod_access_compat.c>
+            Require all granted
+        </IfModule>
+        <IfModule mod_access_compat.c>
+            Order allow,deny
+            Allow from all
+        </IfModule>
+    </Directory>
+
+</VirtualHost>
